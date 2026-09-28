@@ -1,92 +1,583 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Neil Gabriel Sto Domingo | Unity Developer</title>
+```
+<title>Neil Gabriel Sto Domingo | Unity Developer</title>
 
-    <style>
+<style>
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #eee;
-            line-height: 1.6;
+    /* =========================
+       GENERAL
+    ========================= */
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #eee;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* Animated background grid */
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background-image:
+            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+
+        background-size: 50px 50px;
+
+        animation: gridMove 20s linear infinite;
+
+        pointer-events: none;
+        z-index: -2;
+    }
+
+    @keyframes gridMove {
+
+        from {
+            transform: translate(0, 0);
         }
 
-        .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: auto;
+        to {
+            transform: translate(50px, 50px);
         }
 
-        header {
-            padding: 100px 0 60px;
+    }
+
+    /* Subtle glow behind page */
+
+    body::after {
+        content: "";
+        position: fixed;
+        width: 600px;
+        height: 600px;
+
+        top: -250px;
+        right: -250px;
+
+        background: rgba(108, 182, 255, 0.08);
+
+        filter: blur(100px);
+
+        border-radius: 50%;
+
+        pointer-events: none;
+        z-index: -1;
+    }
+
+
+    .container {
+        width: 90%;
+        max-width: 1100px;
+        margin: auto;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        min-height: 80vh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        padding: 80px 0 60px;
+    }
+
+    h1 {
+        font-size: 48px;
+        margin-bottom: 10px;
+
+        animation: titleAppear 1s ease forwards;
+    }
+
+    @keyframes titleAppear {
+
+        from {
+            opacity: 0;
+            transform: translateY(30px);
         }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    h2 {
+        margin-top: 70px;
+        font-size: 30px;
+    }
+
+
+    .subtitle {
+        font-size: 22px;
+        color: #aaa;
+
+        animation: fadeUp 1s ease 0.2s both;
+    }
+
+
+    .intro {
+        max-width: 750px;
+        font-size: 18px;
+
+        animation: fadeUp 1s ease 0.4s both;
+    }
+
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    /* =========================
+       SCROLL INDICATOR
+    ========================= */
+
+    .scroll-indicator {
+
+        margin-top: 50px;
+
+        color: #777;
+
+        font-size: 14px;
+
+        animation:
+            fadeUp 1s ease 0.8s both,
+            bounce 2s ease-in-out infinite;
+
+    }
+
+
+    @keyframes bounce {
+
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(8px);
+        }
+
+    }
+
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    section {
+
+        margin-bottom: 80px;
+
+    }
+
+
+    /* Scroll fade animation */
+
+    .fade-in {
+
+        opacity: 0;
+
+        transform: translateY(40px);
+
+        transition:
+            opacity 0.8s ease,
+            transform 0.8s ease;
+
+    }
+
+
+    .fade-in.show {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+
+    /* =========================
+       PROJECTS
+    ========================= */
+
+    .projects {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(300px, 1fr));
+
+        gap: 30px;
+
+    }
+
+
+    .project {
+
+        background: rgba(28, 28, 28, 0.9);
+
+        padding: 25px;
+
+        border-radius: 12px;
+
+        border: 1px solid rgba(255,255,255,0.05);
+
+        overflow: hidden;
+
+        transition:
+
+            transform 0.35s ease,
+
+            box-shadow 0.35s ease,
+
+            border-color 0.35s ease;
+
+    }
+
+
+    /* Project hover effect */
+
+    .project:hover {
+
+        transform: translateY(-10px);
+
+        box-shadow:
+            0 20px 50px rgba(0,0,0,0.5),
+            0 0 30px rgba(108,182,255,0.08);
+
+        border-color:
+            rgba(108,182,255,0.25);
+
+    }
+
+
+    .project h3 {
+
+        font-size: 24px;
+
+        margin-top: 20px;
+
+    }
+
+
+    /* =========================
+       PROJECT IMAGE
+    ========================= */
+
+    .project-image {
+
+        width: 100%;
+
+        border-radius: 10px;
+
+        display: block;
+
+        transition:
+
+            transform 0.5s ease,
+
+            filter 0.5s ease;
+
+    }
+
+
+    .project:hover .project-image {
+
+        transform: scale(1.04);
+
+        filter: brightness(1.08);
+
+    }
+
+
+    /* =========================
+       LINKS
+    ========================= */
+
+    a {
+
+        color: #6cb6ff;
+
+        text-decoration: none;
+
+        transition:
+
+            color 0.25s ease,
+
+            text-shadow 0.25s ease;
+
+    }
+
+
+    a:hover {
+
+        color: #9dd2ff;
+
+        text-shadow:
+            0 0 10px rgba(108,182,255,0.5);
+
+    }
+
+
+    /* =========================
+       STORE BUTTON
+    ========================= */
+
+    .store-button {
+
+        display: inline-block;
+
+        margin-top: 5px;
+
+        padding: 9px 16px;
+
+        border: 1px solid rgba(108,182,255,0.35);
+
+        border-radius: 6px;
+
+        background: rgba(108,182,255,0.05);
+
+        transition:
+
+            transform 0.25s ease,
+
+            background 0.25s ease,
+
+            box-shadow 0.25s ease;
+
+    }
+
+
+    .store-button:hover {
+
+        transform: translateY(-3px);
+
+        background:
+            rgba(108,182,255,0.12);
+
+        box-shadow:
+            0 8px 20px rgba(0,0,0,0.3);
+
+    }
+
+
+    /* =========================
+       SKILLS
+    ========================= */
+
+    .skills {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+    }
+
+
+    .skill {
+
+        background: #222;
+
+        padding: 8px 14px;
+
+        border-radius: 20px;
+
+        border: 1px solid transparent;
+
+        transition:
+
+            transform 0.25s ease,
+
+            border-color 0.25s ease,
+
+            background 0.25s ease;
+
+    }
+
+
+    .skill:hover {
+
+        transform: translateY(-4px);
+
+        background: #292929;
+
+        border-color:
+            rgba(108,182,255,0.35);
+
+    }
+
+
+    /* =========================
+       LIST
+    ========================= */
+
+    .project li {
+
+        margin-bottom: 6px;
+
+        transition:
+            transform 0.2s ease,
+            color 0.2s ease;
+
+    }
+
+
+    .project li:hover {
+
+        transform: translateX(5px);
+
+        color: #9dd2ff;
+
+    }
+
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact-links {
+
+        display: flex;
+
+        gap: 15px;
+
+        flex-wrap: wrap;
+
+        margin-top: 20px;
+
+    }
+
+
+    .contact-button {
+
+        display: inline-block;
+
+        padding: 10px 18px;
+
+        border-radius: 6px;
+
+        border: 1px solid #444;
+
+        background: #1c1c1c;
+
+        transition:
+
+            transform 0.25s ease,
+
+            background 0.25s ease,
+
+            border-color 0.25s ease;
+
+    }
+
+
+    .contact-button:hover {
+
+        transform: translateY(-4px);
+
+        background: #252525;
+
+        border-color: #6cb6ff;
+
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+
+        margin-top: 100px;
+
+        padding: 40px 0;
+
+        border-top: 1px solid #333;
+
+        color: #777;
+
+        text-align: center;
+
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
 
         h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
 
-        h2 {
-            margin-top: 70px;
-            font-size: 30px;
+            font-size: 36px;
+
         }
 
         .subtitle {
-            font-size: 22px;
-            color: #aaa;
+
+            font-size: 18px;
+
         }
 
         .intro {
-            max-width: 750px;
-            font-size: 18px;
+
+            font-size: 16px;
+
+        }
+
+        header {
+
+            min-height: 70vh;
+
         }
 
         .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+
+            grid-template-columns: 1fr;
+
         }
 
-        .project {
-            background: #1c1c1c;
-            padding: 25px;
-            border-radius: 10px;
-        }
+    }
 
-        .project h3 {
-            font-size: 24px;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .skill {
-            background: #222;
-            padding: 8px 14px;
-            border-radius: 20px;
-        }
-
-        a {
-            color: #6cb6ff;
-            text-decoration: none;
-        }
-
-        footer {
-            margin-top: 100px;
-            padding: 40px 0;
-            border-top: 1px solid #333;
-        }
-
-    </style>
+</style>
+```
 
 </head>
 
@@ -94,184 +585,487 @@
 
 <div class="container">
 
-    <header>
+```
+<!-- =========================
+     HEADER
+========================= -->
 
-        <h1>Neil Gabriel Sto Domingo</h1>
+<header>
 
-        <div class="subtitle">
-            Unity Developer | C# | VR | UI Systems | Gameplay Features
-        </div>
-
-        <p class="intro">
-            Unity Developer with 7 years of experience working with
-            Unity and C#. Experienced in UI systems, gameplay features,
-            VR development, tools, SDK/API integration, and live game support.
-        </p>
-
-    </header>
+    <h1>
+        Neil Gabriel Sto Domingo
+    </h1>
 
 
-    <section>
+    <div class="subtitle">
 
-        <h2>Featured Projects</h2>
+        Unity Developer |
+        C# |
+        VR |
+        UI Systems |
+        Gameplay Features
 
-        <div class="projects">
+    </div>
 
-            <div class="project">
 
-                <img src="Screenshots/Ultrawings 2 Main.jpg" 
-                 alt="Ultrawings 2 VR"
-                 style="width:100%; border-radius:10px;">
+    <p class="intro">
 
-                <h3>Ultrawings 2 VR</h3>
+        Unity Developer with 7 years of experience working with
+        Unity and C#. Experienced in UI systems, gameplay features,
+        VR development, tools, SDK/API integration, and live game support.
 
-                <p>
-                    An open-world, aerial-adventure VR game where you pilot unique aircraft to complete hundreds of missions across hand-crafted islands.
-                </p>
+    </p>
 
-                <p>
-                    <a href="https://www.meta.com/experiences/ultrawings-2/3215828205181680/?srsltid=AU7gw4VIUQjZTr0y1SPid7hOERpdoPaROeWzJdxKoJYXnCYflKHp7rel" target="_blank">
+
+    <div class="scroll-indicator">
+
+        ↓ Scroll to explore my work
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     PROJECTS
+========================= -->
+
+<section class="fade-in">
+
+    <h2>
+        Featured Projects
+    </h2>
+
+
+    <div class="projects">
+
+
+        <!-- ULTRAWINGS 2 -->
+
+        <div class="project">
+
+
+            <img
+                class="project-image"
+                src="Screenshots/Ultrawings 2 Main.jpg"
+                alt="Ultrawings 2 VR"
+            >
+
+
+            <h3>
+                Ultrawings 2 VR
+            </h3>
+
+
+            <p>
+
+                An open-world, aerial-adventure VR game where you
+                pilot unique aircraft to complete hundreds of
+                missions across hand-crafted islands.
+
+            </p>
+
+
+            <p>
+
+                <a
+                    class="store-button"
+                    href="https://www.meta.com/experiences/ultrawings-2/3215828205181680/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+
                     View on Meta Quest →
-                    </a>
-                </p>
 
-                <h4>My Contributions</h4>
+                </a>
 
-                <ul>
-                    <li>Core UI systems</li>
-                    <li>Mission loading and gameplay UI</li>
-                    <li>Meta and Steam achievements</li>
-                    <li>Meta DLC systems</li>
-                    <li>Multiplayer UI and match results</li>
-                    <li>Unity Editor tools</li>
-                    <li>Live game support and bug fixing</li>
-                    <li>Progress monitoring</li>
-                </ul>
-
-                <p>
-                    <strong>Technologies:</strong>
-                    Unity, C#, Meta SDK, Steam API, Addressables
-                </p>
-
-            </div>
+            </p>
 
 
-            <div class="project">
+            <h4>
+                My Contributions
+            </h4>
 
-                <img src="Screenshots/SRC Main.png" 
-                 alt="Super RC VR"
-                 style="width:100%; border-radius:10px;">
 
-                <h3>Super RC VR</h3>
+            <ul>
 
-                <p>
-                    A virtual reality remote-controlled (RC) car racing and sandbox game developed by Bit Planet Games for Meta Quest headsets.
-                </p>
+                <li>
+                    Core UI systems
+                </li>
 
-                <p>
-                    <a href="https://www.meta.com/experiences/super-rc/6581889301939786/" target="_blank">
+                <li>
+                    Mission loading and gameplay UI
+                </li>
+
+                <li>
+                    Meta and Steam achievements
+                </li>
+
+                <li>
+                    Meta DLC systems
+                </li>
+
+                <li>
+                    Multiplayer UI and match results
+                </li>
+
+                <li>
+                    Unity Editor tools
+                </li>
+
+                <li>
+                    Live game support and bug fixing
+                </li>
+
+                <li>
+                    Progress monitoring
+                </li>
+
+            </ul>
+
+
+            <p>
+
+                <strong>
+                    Technologies:
+                </strong>
+
+                Unity,
+                C#,
+                Meta SDK,
+                Steam API,
+                Addressables
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- SUPER RC -->
+
+        <div class="project">
+
+
+            <img
+                class="project-image"
+                src="Screenshots/SRC Main.png"
+                alt="Super RC VR"
+            >
+
+
+            <h3>
+                Super RC VR
+            </h3>
+
+
+            <p>
+
+                A virtual reality remote-controlled (RC) car
+                racing and sandbox game developed by Bit Planet
+                Games for Meta Quest headsets.
+
+            </p>
+
+
+            <p>
+
+                <a
+                    class="store-button"
+                    href="https://www.meta.com/experiences/super-rc/6581889301939786/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+
                     View on Meta Quest →
-                    </a>
-                </p>
 
-                <h4>My Contributions</h4>
+                </a>
 
-                <ul>
-                    <li>Overall UI system</li>
-                    <li>VR touch interaction</li>
-                    <li>Unity XR Toolkit</li>
-                    <li>Gameplay features</li>
-                    <li>Legacy code refactoring</li>
-                    <li>Performance improvements</li>
-                    <li>Live game support and bug fixing</li>
-                    <li>Progress monitoring</li>
-                </ul>
+            </p>
 
-                <p>
-                    <strong>Technologies:</strong>
-                    Unity, C#, XR Toolkit, Meta SDK
-                </p>
 
-            </div>
+            <h4>
+                My Contributions
+            </h4>
+
+
+            <ul>
+
+                <li>
+                    Overall UI system
+                </li>
+
+                <li>
+                    VR touch interaction
+                </li>
+
+                <li>
+                    Unity XR Toolkit
+                </li>
+
+                <li>
+                    Gameplay features
+                </li>
+
+                <li>
+                    Legacy code refactoring
+                </li>
+
+                <li>
+                    Performance improvements
+                </li>
+
+                <li>
+                    Live game support and bug fixing
+                </li>
+
+                <li>
+                    Progress monitoring
+                </li>
+
+            </ul>
+
+
+            <p>
+
+                <strong>
+                    Technologies:
+                </strong>
+
+                Unity,
+                C#,
+                XR Toolkit,
+                Meta SDK
+
+            </p>
+
 
         </div>
 
-    </section>
+
+    </div>
+
+</section>
 
 
-    <section>
 
-        <h2>Skills</h2>
+<!-- =========================
+     SKILLS
+========================= -->
 
-        <div class="skills">
+<section class="fade-in">
 
-            <span class="skill">Unity</span>
-            <span class="skill">C#</span>
-            <span class="skill">UI Systems</span>
-            <span class="skill">Gameplay Programming</span>
-            <span class="skill">VR / XR</span>
-            <span class="skill">Unity Editor Tools</span>
-            <span class="skill">Meta SDK</span>
-            <span class="skill">Steam API</span>
-            <span class="skill">IAP</span>
-            <span class="skill">DLC</span>
-            <span class="skill">Addressables</span>
-            <span class="skill">Debugging</span>
-            <span class="skill">Optimization</span>
-
-        </div>
-
-    </section>
+    <h2>
+        Skills
+    </h2>
 
 
-    <section>
+    <div class="skills">
 
-        <h2>About Me</h2>
+        <span class="skill">
+            Unity
+        </span>
 
-        <p class="intro">
+        <span class="skill">
+            C#
+        </span>
 
-            I enjoy building game systems that improve the player experience,
-            particularly UI and gameplay features. I have worked closely with
-            programmers, artists, and designers to develop features,
-            troubleshoot issues, and support shipped games.
+        <span class="skill">
+            UI Systems
+        </span>
 
-        </p>
+        <span class="skill">
+            Gameplay Programming
+        </span>
 
-    </section>
+        <span class="skill">
+            VR / XR
+        </span>
+
+        <span class="skill">
+            Unity Editor Tools
+        </span>
+
+        <span class="skill">
+            Meta SDK
+        </span>
+
+        <span class="skill">
+            Steam API
+        </span>
+
+        <span class="skill">
+            IAP
+        </span>
+
+        <span class="skill">
+            DLC
+        </span>
+
+        <span class="skill">
+            Addressables
+        </span>
+
+        <span class="skill">
+            Debugging
+        </span>
+
+        <span class="skill">
+            Optimization
+        </span>
+
+    </div>
+
+</section>
 
 
-    <section>
 
-        <h2>Contact</h2>
+<!-- =========================
+     ABOUT
+========================= -->
 
-        <p>
-            Interested in working together?
-        </p>
+<section class="fade-in">
 
-        <p>
-            <a href="https://www.linkedin.com/in/neil-gabriel-sto-domingo-a72984141/" target="_blank">
-                LinkedIn
-            </a>
-        </p>
-
-        <p>
-            <a href="mailto:neil.dev.meta@gmail.com">
-                Email Me
-            </a>
-        </p>
-
-    </section>
+    <h2>
+        About Me
+    </h2>
 
 
-    <footer>
+    <p class="intro">
 
-        <p>
-            © 2026 Neil Gabriel Sto Domingo
-        </p>
+        I enjoy building game systems that improve the player
+        experience, particularly UI and gameplay features.
+        I have worked closely with programmers, artists, and
+        designers to develop features, troubleshoot issues,
+        and support shipped games.
 
-    </footer>
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="fade-in">
+
+    <h2>
+        Contact
+    </h2>
+
+
+    <p>
+
+        Interested in working together?
+
+    </p>
+
+
+    <div class="contact-links">
+
+
+        <a
+            class="contact-button"
+            href="https://www.linkedin.com/in/neil-gabriel-sto-domingo-a72984141/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+
+            LinkedIn
+
+        </a>
+
+
+        <a
+            class="contact-button"
+            href="mailto:neil.dev.meta@gmail.com"
+        >
+
+            Email Me
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Neil Gabriel Sto Domingo
+
+    </p>
+
+</footer>
+```
 
 </div>
+
+<!-- =========================
+     SCROLL ANIMATION
+========================= -->
+
+<script>
+
+    const elements =
+        document.querySelectorAll('.fade-in');
+
+
+    const observer =
+        new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach(
+
+                    (entry) => {
+
+                        if (entry.isIntersecting) {
+
+                            entry.target.classList.add('show');
+
+                            observer.unobserve(entry.target);
+
+                        }
+
+                    }
+
+                );
+
+            },
+
+            {
+
+                threshold: 0.15
+
+            }
+
+        );
+
+
+    elements.forEach(
+
+        (element) => {
+
+            observer.observe(element);
+
+        }
+
+    );
+
+</script>
 
 </body>
 
